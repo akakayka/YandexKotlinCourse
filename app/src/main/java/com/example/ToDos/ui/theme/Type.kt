@@ -1,4 +1,4 @@
-package com.example.yandexkotlincourse.ui.theme
+package com.example.ToDos.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

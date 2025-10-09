@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlinhw_1"
+    namespace = "com.example.ToDos"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.kotlinhw_1"
+        applicationId = "com.example.ToDos"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
@@ -50,7 +50,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
@@ -66,4 +65,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("com.github.tony19:logback-android:3.0.0")
+    implementation("org.slf4j:slf4j-api:2.0.9")
 }
