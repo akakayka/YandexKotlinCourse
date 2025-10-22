@@ -1,4 +1,4 @@
-package com.example.yandexkotlincourse
+package com.example.ToDos
 
 import org.junit.Test
 

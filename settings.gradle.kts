@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "YandexKotlinCourse"
+rootProject.name = "ToDos"
 include(":app")
  
