@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ToDos.TodoItem
 
@@ -59,9 +58,9 @@ fun ImportanceChip(
     modifier: Modifier = Modifier
 ) {
     val (text, color) = when (priority) {
-        TodoItem.Importance.LOW -> "Низкая" to MaterialTheme.colorScheme.tertiary
+        TodoItem.Importance.LOW -> "Низкая" to MaterialTheme.colorScheme.primary
         TodoItem.Importance.USUAL -> "Обычная" to MaterialTheme.colorScheme.primary
-        TodoItem.Importance.HIGH -> "Высокая" to MaterialTheme.colorScheme.error
+        TodoItem.Importance.HIGH -> "Высокая" to MaterialTheme.colorScheme.primary
     }
 
     androidx.compose.material3.FilterChip(
@@ -81,30 +80,4 @@ fun ImportanceChip(
             disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PrioritySelectionPreview() {
-    MaterialTheme {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            ImportancePicker(
-                selectedPriority = TodoItem.Importance.USUAL,
-                onPrioritySelected = {}
-            )
-
-            ImportancePicker(
-                selectedPriority = TodoItem.Importance.HIGH,
-                onPrioritySelected = {}
-            )
-
-            ImportancePicker(
-                selectedPriority = TodoItem.Importance.LOW,
-                onPrioritySelected = {}
-            )
-        }
-    }
 }

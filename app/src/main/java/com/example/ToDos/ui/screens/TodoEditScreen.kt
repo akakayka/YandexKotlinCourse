@@ -2,6 +2,7 @@ package com.example.ToDos.ui.screens
 
 
 
+import ItemTextField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,15 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.ToDos.TodoItem
 import com.example.ToDos.ui.components.ColorSelection
 import com.example.ToDos.ui.components.ImportancePicker
 import com.example.ToDos.ui.components.SimpleButton
-import com.example.ToDos.ui.components.TodoTextField
 import com.example.ToDos.ui.components.colorPalette
-import com.example.ToDos.ui.theme.ToDosTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -56,13 +55,14 @@ fun TodoEditScreen() {
     var selectedColor by remember { mutableStateOf(colorPalette[0].color) }
     var selectedPriority by remember { mutableStateOf(TodoItem.Importance.USUAL) }
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        TodoTextField(
+        ItemTextField(
             text = todoText,
             onTextChanged = { newText ->
                 todoText = newText
@@ -100,6 +100,8 @@ fun TodoEditScreen() {
                 checked = isCompleted,
                 onCheckedChange = { checked ->
                     isCompleted = checked
+                    if(checked)
+                        selectedColor = Color.Gray
                 },
                 enabled = true
             )
@@ -139,14 +141,7 @@ fun TodoEditScreen() {
                     DatePicker(state = datePickerState)
                 }
             }
+
+
         }
     }
-
-
-@Preview(showBackground = true)
-@Composable
-fun TodoEditScreenPreview() {
-    ToDosTheme {
-        TodoEditScreen()
-    }
-}

@@ -13,33 +13,36 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-// Модель для цветов
 data class TodoColor(
     val color: Color,
     val name: String
 )
 
-// Палитра цветов
 val colorPalette = listOf(
     TodoColor(Color(0xFF6B8E6B), "Зеленый"),
     TodoColor(Color(0xFF8B4513), "Коричневый"),
     TodoColor(Color(0xFF4682B4), "Синий"),
     TodoColor(Color(0xFFD2691E), "Оранжевый"),
-    TodoColor(Color(0xFF9370DB), "Фиолетовый"),
-    TodoColor(Color(0xFF20B2AA), "Бирюзовый")
+    TodoColor(Color(0xFF9370DB), "Фиолетовый")
 )
 
 @Composable
@@ -48,6 +51,8 @@ fun ColorSelection(
     onColorSelected: (Color) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var showColorPicker by remember { mutableStateOf(false) }
+
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(2.dp)
@@ -72,8 +77,25 @@ fun ColorSelection(
                         onColorSelected = { onColorSelected(todoColor.color) }
                     )
                 }
+
+                ColorPickerOption(
+                    currentColor = selectedColor,
+                    isSelected = !colorPalette.any { it.color == selectedColor },
+                    onClick = { showColorPicker = true }
+                )
             }
         }
+    }
+
+    if (showColorPicker) {
+        ColorPickerDialog(
+            currentColor = selectedColor,
+            onColorSelected = { color ->
+                onColorSelected(color)
+                showColorPicker = false
+            },
+            onDismiss = { showColorPicker = false }
+        )
     }
 }
 
@@ -108,18 +130,58 @@ fun ColorOption(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun ColorSelectionPreview() {
-    MaterialTheme {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            ColorSelection(
-                selectedColor = colorPalette[0].color,
-                onColorSelected = {}
+fun ColorPickerOption(
+    currentColor: Color,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .size(48.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color.Red,
+                        Color.Yellow,
+                        Color.Green,
+                        Color.Cyan,
+                        Color.Blue,
+                        Color.Magenta
+                    )
+                )
             )
+            .border(
+                width = 2.dp,
+                color = if (isSelected) Color.Black else Color.Transparent,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(currentColor)
+                    .border(
+                        width = 1.dp,
+                        color = Color.White,
+                        shape = RoundedCornerShape(4.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ){
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "Выбрать кастомный цвет",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }
+
